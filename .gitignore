@@ -2,6 +2,7 @@
 
 # dependencies
 /mybuild
+/dist
 /node_modules
 /.pnp
 .pnp.js

@@ -19,7 +19,6 @@ module.exports = {
         library: 'reactapp',
         libraryTarget: 'amd',
         filename: 'reactapp.js',
-        path: path.resolve(__dirname, 'mybuild'),
     },
     devServer: {
         headers: {
