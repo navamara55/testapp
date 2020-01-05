@@ -24,10 +24,6 @@ module.exports = {
         headers: {
             "Access-Control-Allow-Origin": "*"
         },
-        port: 9000,
-        contentBase: path.join(__dirname, 'mybuild'),
-        writeToDisk: true,
-        hot: true
     },
 
     module: {
