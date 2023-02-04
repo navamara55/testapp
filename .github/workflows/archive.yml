@@ -15,8 +15,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      run: |
-        echo "Checking out repository ${GITHUB_REPOSITORY}"
 
     - name: Tag and delete stale branches
       run: |
