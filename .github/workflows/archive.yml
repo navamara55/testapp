@@ -10,7 +10,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      id: checkout_repo
       run: |
         echo "Checking out repository ${GITHUB_REPOSITORY}"
 
