@@ -1,5 +1,4 @@
 name: Tag and Delete Stale Branches
-
 env:
   GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
 
