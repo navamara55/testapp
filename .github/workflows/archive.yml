@@ -3,6 +3,11 @@ name: Tag and Delete Stale Branches
 env:
   GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
 
+on:
+  push:
+    branches:
+      - master
+
 jobs:
   tag_and_delete:
     runs-on: ubuntu-latest
@@ -10,6 +15,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      run: |
+        echo "Checking out repository ${GITHUB_REPOSITORY}"
+
     - name: Tag and delete stale branches
       run: |
         # Set the stale period in days
