@@ -10,21 +10,32 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      id: checkout_repo
+      run: |
+        echo "Checking out repository ${GITHUB_REPOSITORY}"
 
     - name: Tag and delete stale branches
       run: |
         # Set the stale period in days
         stale_period=30
 
+        echo "Stale period set to $stale_period days"
+
         # Get the default branch of the repository
         default_branch=$(git rev-parse --abbrev-ref HEAD)
+
+        echo "Default branch of the repository is $default_branch"
 
         # Loop through all branches
         while read oldrev newrev refname; do
           branch=$(echo $refname | cut -d/ -f3)
 
+          echo "Checking branch $branch"
+
           # Skip the default branch and branches with open pull requests or protection rules
           if [ "$branch" != "$default_branch" ] && ! curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls?state=open | grep -q "\"head\":{\"ref\":\"$branch\"}" && ! curl -s https://api.github.com/repos/${GITHUB_REPOSITORY}/branches/$branch/protection | grep -q "required_status_checks"; then
+
+            echo "Branch $branch meets the conditions"
 
             # Check if the branch is older than the stale period
             last_commit_date=$(git log -1 --pretty=format:"%ct" $branch)
@@ -32,11 +43,19 @@ jobs:
             days_since_last_commit=$(((current_date - last_commit_date) / 86400))
 
             if [ $days_since_last_commit -gt $stale_period ]; then
+              echo "Branch $branch is stale"
+
               # Create a tag for the branch
               git tag "stale-$branch-$(date +%Y%m%d-%H%M%S)" $branch
 
+              echo "Tag stale-$branch-$(date +%Y%m%d-%H%M%S) created for branch $branch"
+
               # Delete the branch
               git branch -d $branch
+
+              echo "Branch $branch deleted"
             fi
+          else
+            echo "Skipping branch $branch"
           fi
         done
