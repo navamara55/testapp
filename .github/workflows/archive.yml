@@ -27,6 +27,10 @@ jobs:
 
         echo "Default branch of the repository is $default_branch"
 
+        # Initialize a variable to keep track of archived branches
+        archived_branches=""
+        archive_count=0
+
         # Loop through all branches
         while read oldrev newrev refname; do
           branch=$(echo $refname | cut -d/ -f3)
@@ -55,8 +59,17 @@ jobs:
               git branch -d $branch
 
               echo "Branch $branch deleted"
+
+              # Add the branch to the archived branches list
+              archived_branches="$archived_branches, $branch"
+              archive_count=$((archive_count + 1))
             fi
           else
             echo "Skipping branch $branch"
           fi
         done
+
+    - name: Summary
+      if: archive_count > 0
+      run: |
+        echo "Summary: $archive_count branches archived: $archived_branches"
