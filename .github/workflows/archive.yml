@@ -1,6 +1,4 @@
 name: Tag and Delete Stale Branches
-env:
-  GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
 
 on:
   push:
@@ -14,6 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      env:
+        GITHUB_REPOSITORY: ${{ github.repository }}
 
     - name: Tag and delete stale branches
       run: |
