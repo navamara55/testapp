@@ -48,11 +48,11 @@ jobs:
           done
 
       - name: Log results
-        if: archive_count > 0
+        if: env.archive_count > 0
         run: |
           echo "Archived $archive_count branches"
           
       - name: Log no branches found
-        if: archive_count == 0
+        if: env.archive_count == 0
         run: |
           echo "No branches found to be archived"
